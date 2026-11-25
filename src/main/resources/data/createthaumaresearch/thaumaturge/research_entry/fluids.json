@@ -1,0 +1,62 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.fluids.title",
+  "parents": [
+    "createthaumaresearch:processing",
+    "thaumaturge:tubes"
+  ],
+  "column": 2,
+  "row": 10,
+  "icons": [
+    "create:fluid_pipe"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:alchemy",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "thaumaturge:phial"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.fluids.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.fluids.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/fluid_pipe",
+        "create:crafting/kinetics/mechanical_pump",
+        "create:crafting/kinetics/fluid_tank",
+        "create:crafting/kinetics/fluid_valve",
+        "create:crafting/kinetics/smart_fluid_pipe",
+        "create:crafting/kinetics/spout",
+        "create:crafting/kinetics/item_drain",
+        "create:crafting/kinetics/hose_pulley",
+        "create:crafting/kinetics/portable_fluid_interface"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

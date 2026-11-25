@@ -1,0 +1,63 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.contraptions.title",
+  "parents": [
+    "createthaumaresearch:processing",
+    "thaumaturge:levitator"
+  ],
+  "column": 0,
+  "row": 11,
+  "icons": [
+    "create:mechanical_piston"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/vinculum"
+      ],
+      "text": "research.createthaumaresearch.contraptions.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.contraptions.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/mechanical_piston",
+        "create:crafting/kinetics/sticky_mechanical_piston",
+        "create:crafting/kinetics/piston_extension_pole",
+        "create:crafting/kinetics/gantry_shaft",
+        "create:crafting/kinetics/gantry_carriage",
+        "create:crafting/kinetics/rope_pulley",
+        "create:crafting/kinetics/elevator_pulley",
+        "create:crafting/kinetics/linear_chassis",
+        "create:crafting/kinetics/radial_chassis",
+        "create:crafting/kinetics/super_glue",
+        "create:crafting/kinetics/sticker",
+        "create:crafting/kinetics/cart_assembler",
+        "create:crafting/kinetics/contraption_controls",
+        "create:crafting/kinetics/portable_storage_interface",
+        "create:crafting/kinetics/turntable"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

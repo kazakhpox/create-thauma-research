@@ -1,0 +1,66 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.signals.title",
+  "parents": [
+    "createthaumaresearch:transmission",
+    "thaumaturge:redstone_relay"
+  ],
+  "column": 6,
+  "row": 4,
+  "icons": [
+    "create:redstone_link"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:redstone_block"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.signals.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.signals.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/clutch",
+        "create:crafting/kinetics/gearshift",
+        "create:crafting/kinetics/sequenced_gearshift",
+        "create:crafting/logistics/redstone_link",
+        "create:crafting/kinetics/analog_lever",
+        "create:crafting/logistics/pulse_repeater",
+        "create:crafting/logistics/pulse_timer",
+        "create:crafting/logistics/powered_latch",
+        "create:crafting/logistics/powered_toggle_latch",
+        "create:crafting/logistics/redstone_contact",
+        "create:crafting/kinetics/nixie_tube",
+        "create:crafting/logistics/display_link",
+        "create:crafting/kinetics/display_board"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

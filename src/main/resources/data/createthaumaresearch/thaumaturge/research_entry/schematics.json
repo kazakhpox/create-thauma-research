@@ -1,0 +1,63 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.schematics.title",
+  "parents": [
+    "createthaumaresearch:precision"
+  ],
+  "column": 6,
+  "row": 13,
+  "icons": [
+    "create:schematicannon"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:basics",
+          "amount": 1
+        },
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:writable_book"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.schematics.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.schematics.stage_1",
+      "recipes": [
+        "create:crafting/schematics/schematic_table",
+        "create:crafting/schematics/schematicannon",
+        "create:crafting/schematics/empty_schematic",
+        "create:crafting/schematics/schematic_and_quill",
+        "create:crafting/appliances/clipboard",
+        "create:crafting/appliances/crafting_blueprint"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

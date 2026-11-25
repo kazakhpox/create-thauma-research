@@ -1,0 +1,51 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.wind_power.title",
+  "parents": [
+    "createthaumaresearch:water_power"
+  ],
+  "column": -4,
+  "row": 4,
+  "icons": [
+    "create:windmill_bearing"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/aer"
+      ],
+      "text": "research.createthaumaresearch.wind_power.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.wind_power.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/windmill_bearing",
+        "create:crafting/kinetics/mechanical_bearing",
+        "create:crafting/kinetics/white_sail",
+        "create:crafting/kinetics/sail_frame_from_conversion"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

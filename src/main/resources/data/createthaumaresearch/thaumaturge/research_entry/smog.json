@@ -1,0 +1,32 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.smog.title",
+  "parents": [
+    "createthaumaresearch:steam",
+    "thaumaturge:flux"
+  ],
+  "column": 7,
+  "row": 11,
+  "icons": [
+    "create:steam_whistle"
+  ],
+  "stages": [
+    {
+      "text": "research.createthaumaresearch.smog.stage_0"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

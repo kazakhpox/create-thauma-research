@@ -1,0 +1,55 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.measuring.title",
+  "parents": [
+    "createthaumaresearch:transmission"
+  ],
+  "column": 4,
+  "row": 2,
+  "icons": [
+    "create:goggles"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "thaumaturge:goggles_revealing"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.measuring.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.measuring.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/goggles",
+        "create:crafting/kinetics/speedometer",
+        "create:crafting/kinetics/stressometer_from_conversion"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

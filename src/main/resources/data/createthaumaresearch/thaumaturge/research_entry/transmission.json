@@ -1,0 +1,55 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.transmission.title",
+  "parents": [
+    "createthaumaresearch:kinetics"
+  ],
+  "column": 2,
+  "row": 3,
+  "icons": [
+    "create:large_cogwheel"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:basics",
+          "amount": 1
+        },
+        {
+          "type": "observation",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.transmission.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.transmission.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/large_cogwheel",
+        "create:crafting/kinetics/gearbox",
+        "create:crafting/kinetics/vertical_gearbox",
+        "create:crafting/kinetics/belt_connector",
+        "create:crafting/kinetics/encased_chain_drive",
+        "create:crafting/kinetics/adjustable_chain_gearshift"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

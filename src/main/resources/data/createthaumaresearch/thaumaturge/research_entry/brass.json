@@ -1,0 +1,58 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.brass.title",
+  "parents": [
+    "createthaumaresearch:processing",
+    "thaumaturge:metallurgy"
+  ],
+  "column": 3,
+  "row": 8,
+  "icons": [
+    "create:brass_ingot"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:alchemy",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "create:brass_ingot"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.brass.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.brass.stage_1",
+      "recipes": [
+        "create:item_application/brass_casing_from_log",
+        "create:crafting/materials/electron_tube",
+        "create:crafting/kinetics/brass_hand",
+        "create:crafting/materials/sand_paper",
+        "create:crafting/materials/red_sand_paper"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:alkimia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

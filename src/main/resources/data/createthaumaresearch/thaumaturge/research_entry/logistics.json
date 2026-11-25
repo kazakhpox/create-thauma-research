@@ -1,0 +1,53 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.logistics.title",
+  "parents": [
+    "createthaumaresearch:tools"
+  ],
+  "column": -3,
+  "row": 7,
+  "icons": [
+    "create:andesite_funnel"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:basics",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/ordo"
+      ],
+      "text": "research.createthaumaresearch.logistics.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.logistics.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/depot",
+        "create:crafting/kinetics/chute",
+        "create:crafting/logistics/andesite_funnel",
+        "create:crafting/logistics/andesite_tunnel",
+        "create:crafting/kinetics/item_vault",
+        "create:crafting/kinetics/weighted_ejector"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

@@ -1,0 +1,51 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.kinetics.title",
+  "parents": [
+    "createthaumaresearch:base_mechanoturgy"
+  ],
+  "column": 0,
+  "row": 2,
+  "icons": [
+    "create:cogwheel"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/motus"
+      ],
+      "text": "research.createthaumaresearch.kinetics.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.kinetics.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/shaft",
+        "create:crafting/kinetics/cogwheel",
+        "create:crafting/kinetics/hand_crank",
+        "create:item_application/andesite_casing_from_log"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

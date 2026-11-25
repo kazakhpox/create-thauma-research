@@ -1,0 +1,45 @@
+{
+  "background": "createthaumaresearch:textures/gui/research_back_mechanoturgy.png",
+  "icon": "create:textures/item/brass_hand.png",
+  "index": 7,
+  "overlay_background": "thaumaturge:textures/gui/gui_research_back_over.png",
+  "required_research": "createthaumaresearch:unlock_mechanoturgy",
+  "formula": [
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 5
+    }
+  ]
+}

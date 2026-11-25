@@ -1,0 +1,56 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.tools.title",
+  "parents": [
+    "createthaumaresearch:transmission"
+  ],
+  "column": 0,
+  "row": 5,
+  "icons": [
+    "create:mechanical_drill"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:iron_ingot"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.tools.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.tools.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/mechanical_drill",
+        "create:crafting/kinetics/mechanical_saw",
+        "create:crafting/kinetics/mechanical_harvester",
+        "create:crafting/kinetics/mechanical_plough"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

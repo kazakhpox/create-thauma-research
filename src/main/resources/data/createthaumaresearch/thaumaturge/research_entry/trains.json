@@ -1,0 +1,59 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.trains.title",
+  "parents": [
+    "createthaumaresearch:contraptions",
+    "createthaumaresearch:precision"
+  ],
+  "column": 0,
+  "row": 14,
+  "icons": [
+    "create:track_station"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 2
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:rail"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.trains.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.trains.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/track_station",
+        "create:crafting/kinetics/track_signal",
+        "create:crafting/kinetics/track_observer",
+        "create:crafting/kinetics/controls",
+        "create:crafting/appliances/schedule_clear",
+        "create:item_application/railway_casing"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

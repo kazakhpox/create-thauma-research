@@ -1,0 +1,56 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.sorting.title",
+  "parents": [
+    "createthaumaresearch:logistics",
+    "createthaumaresearch:brass"
+  ],
+  "column": -3,
+  "row": 10,
+  "icons": [
+    "create:mechanical_arm"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/cognitio"
+      ],
+      "text": "research.createthaumaresearch.sorting.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.sorting.stage_1",
+      "recipes": [
+        "create:crafting/appliances/filter_clear",
+        "create:crafting/appliances/attribute_filter_clear",
+        "create:crafting/logistics/brass_funnel",
+        "create:crafting/logistics/brass_tunnel",
+        "create:crafting/kinetics/smart_chute",
+        "create:crafting/kinetics/mechanical_arm",
+        "create:crafting/logistics/content_observer",
+        "create:crafting/logistics/stockpile_switch"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

@@ -1,0 +1,56 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.processing.title",
+  "parents": [
+    "createthaumaresearch:tools",
+    "thaumaturge:bellows"
+  ],
+  "column": 0,
+  "row": 7,
+  "icons": [
+    "create:mechanical_press"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/machina"
+      ],
+      "text": "research.createthaumaresearch.processing.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.processing.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/mechanical_press",
+        "create:crafting/kinetics/basin",
+        "create:crafting/kinetics/mechanical_mixer",
+        "create:crafting/kinetics/whisk",
+        "create:crafting/kinetics/millstone",
+        "create:crafting/kinetics/encased_fan",
+        "create:crafting/kinetics/propeller",
+        "create:crafting/kinetics/nozzle"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

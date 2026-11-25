@@ -1,0 +1,66 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.packaging.title",
+  "parents": [
+    "createthaumaresearch:sorting"
+  ],
+  "column": -3,
+  "row": 13,
+  "icons": [
+    "create:package_frogport"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        },
+        {
+          "type": "observation",
+          "category": "thaumaturge:golemancy",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:paper"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.packaging.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.packaging.stage_1",
+      "recipes": [
+        "create:crafting/logistics/packager",
+        "create:crafting/logistics/repackager_from_conversion",
+        "create:crafting/logistics/package_frogport",
+        "create:crafting/logistics/stock_link",
+        "create:crafting/logistics/stock_ticker",
+        "create:crafting/logistics/factory_gauge",
+        "create:crafting/logistics/redstone_requester",
+        "create:crafting/appliances/package_filter_clear",
+        "create:crafting/materials/cardboard_block"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

@@ -1,0 +1,46 @@
+{
+  "category": "thaumaturge:basics",
+  "name": "research.createthaumaresearch.unlock_mechanoturgy.title",
+  "parents": [
+    "thaumaturge:unlock_artifice"
+  ],
+  "column": 4,
+  "row": 6,
+  "meta": [
+    "round",
+    "spiky"
+  ],
+  "icons": [
+    "create:textures/item/brass_hand.png"
+  ],
+  "stages": [
+    {
+      "text": "research.createthaumaresearch.unlock_mechanoturgy.stage_0",
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:artifice",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/motus",
+        "thaumaturge:scanned/aspect/thaumaturge/machina"
+      ]
+    },
+    {
+      "text": "research.createthaumaresearch.unlock_mechanoturgy.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 2
+    }
+  ],
+  "complexity": 1
+}

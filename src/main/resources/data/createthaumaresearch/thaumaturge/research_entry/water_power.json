@@ -1,0 +1,57 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.water_power.title",
+  "parents": [
+    "createthaumaresearch:kinetics"
+  ],
+  "column": -2,
+  "row": 3,
+  "icons": [
+    "create:water_wheel"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:basics",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/aqua"
+      ],
+      "obtain": [
+        {
+          "items": [
+            "minecraft:water_bucket"
+          ],
+          "amount": 1
+        }
+      ],
+      "text": "research.createthaumaresearch.water_power.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.water_power.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/water_wheel",
+        "create:crafting/kinetics/large_water_wheel"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

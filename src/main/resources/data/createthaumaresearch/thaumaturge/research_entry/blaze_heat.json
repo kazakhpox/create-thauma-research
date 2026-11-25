@@ -1,0 +1,49 @@
+{
+  "category": "createthaumaresearch:mechanoturgy",
+  "name": "research.createthaumaresearch.blaze_heat.title",
+  "parents": [
+    "createthaumaresearch:processing",
+    "thaumaturge:infernal_furnace"
+  ],
+  "column": 5,
+  "row": 7,
+  "icons": [
+    "create:empty_blaze_burner"
+  ],
+  "stages": [
+    {
+      "required_knowledge": [
+        {
+          "type": "observation",
+          "category": "thaumaturge:alchemy",
+          "amount": 1
+        }
+      ],
+      "required_research": [
+        "thaumaturge:scanned/aspect/thaumaturge/ignis"
+      ],
+      "text": "research.createthaumaresearch.blaze_heat.stage_0"
+    },
+    {
+      "text": "research.createthaumaresearch.blaze_heat.stage_1",
+      "recipes": [
+        "create:crafting/kinetics/empty_blaze_burner"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:alkimia",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

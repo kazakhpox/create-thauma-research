@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="createthaumaresearch_devtools"
+version="0.0.0"
+displayName="Thauma-Geared dev tools"
+description='''Checks at server start that every OverKnights recipe loaded.'''
