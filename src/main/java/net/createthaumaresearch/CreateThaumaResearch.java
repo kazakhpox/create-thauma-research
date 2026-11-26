@@ -43,8 +43,8 @@ public final class CreateThaumaResearch {
     private static final Map<Item, ResourceLocation> LOCKS = new HashMap<>();
     private static final Map<ResourceLocation, ResourceLocation> RAW = new HashMap<>();
     private static boolean resolved;
-    private static Method researchOf;
-    private static Method hasCompleted;
+    private static Method knowledgeOf;
+    private static Method isResearchComplete;
     private static boolean reflectionFailed;
 
     public CreateThaumaResearch(IEventBus modBus) {
@@ -75,22 +75,65 @@ public final class CreateThaumaResearch {
 
     /** Thaumaturge's own record of the player's research, reached by name (this mod compiles without Thaumaturge). */
     public static boolean completed(Player player, ResourceLocation research) {
-        if (researchOf == null && !reflectionFailed) {
+        if (player == null || research == null) {
+            return false;
+        }
+
+        if (knowledgeOf == null && !reflectionFailed) {
             try {
-                researchOf = Class.forName("com.leclowndu93150.thaumaturge.api.capability.PlayerResearchAccess").getMethod("of", Player.class);
-                hasCompleted = researchOf.getReturnType().getMethod("hasCompleted", ResourceLocation.class);
-            } catch (ReflectiveOperationException e) {
+                Class<?> knowledgeAccess = Class.forName("com.leclowndu93150.thaumaturge.api.capability.KnowledgeAccess");
+                knowledgeOf = knowledgeAccess.getMethod("of", Player.class);
+
+                for (Method method : knowledgeOf.getReturnType().getMethods()) {
+                    if (method.getName().equals("isResearchComplete") && method.getParameterCount() == 1) {
+                        isResearchComplete = method;
+                        break;
+                    }
+                }
+                if (isResearchComplete == null) {
+                    throw new NoSuchMethodException("IPlayerKnowledge.isResearchComplete");
+                }
+            } catch (ReflectiveOperationException | RuntimeException e) {
                 reflectionFailed = true;
-                LOGGER.error("Create: Thauma Research: this Thaumaturge has no research access; nothing is locked", e);
+                LOGGER.error("Create: Thauma Research could not access Thaumaturge research knowledge", e);
             }
         }
-        if (reflectionFailed) {
-            return true;
+
+        if (reflectionFailed || knowledgeOf == null || isResearchComplete == null) {
+            return false;
         }
+
         try {
-            return (boolean) hasCompleted.invoke(researchOf.invoke(null, player), research);
+            Object knowledge = knowledgeOf.invoke(null, player);
+            Object researchId = convertResearchId(isResearchComplete.getParameterTypes()[0], research);
+            return (boolean) isResearchComplete.invoke(knowledge, researchId);
         } catch (ReflectiveOperationException | RuntimeException e) {
-            return true;
+            LOGGER.error("Create: Thauma Research failed to query completed research: {}", research, e);
+            return false;
+        }
+    }
+
+    private static Object convertResearchId(Class<?> targetType, ResourceLocation research) throws ReflectiveOperationException {
+        if (targetType.isInstance(research)) {
+            return research;
+        }
+
+        try {
+            return targetType.getMethod("parse", String.class).invoke(null, research.toString());
+        } catch (NoSuchMethodException ignored) {
+        }
+
+        try {
+            return targetType.getMethod("fromNamespaceAndPath", String.class, String.class)
+                    .invoke(null, research.getNamespace(), research.getPath());
+        } catch (NoSuchMethodException ignored) {
+        }
+
+        try {
+            return targetType.getConstructor(String.class, String.class)
+                    .newInstance(research.getNamespace(), research.getPath());
+        } catch (NoSuchMethodException e) {
+            throw new ReflectiveOperationException("No compatible research identifier constructor or parser for " + targetType.getName(), e);
         }
     }
 
