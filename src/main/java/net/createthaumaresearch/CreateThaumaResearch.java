@@ -43,14 +43,19 @@ public final class CreateThaumaResearch {
     private static final Map<Item, ResourceLocation> LOCKS = new HashMap<>();
     private static final Map<ResourceLocation, ResourceLocation> RAW = new HashMap<>();
     private static boolean resolved;
+
     private static Method knowledgeOf;
     private static Method isResearchComplete;
+    private static Method isResearchKnown;
+    private static Method oldResearchOf;
+    private static Method oldHasCompleted;
     private static boolean reflectionFailed;
 
     public CreateThaumaResearch(IEventBus modBus) {
         try (InputStream in = CreateThaumaResearch.class.getResourceAsStream("/data/" + MOD_ID + "/research_locks.json")) {
             JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
             json.entrySet().forEach(e -> RAW.put(ResourceLocation.parse(e.getKey()), ResourceLocation.parse(e.getValue().getAsString())));
+            LOGGER.info("Create: Thauma Research loaded {} research locks", RAW.size());
         } catch (Exception e) {
             LOGGER.error("Create: Thauma Research could not read its research locks", e);
         }
@@ -63,6 +68,7 @@ public final class CreateThaumaResearch {
         if (!resolved) {
             RAW.forEach((item, research) -> BuiltInRegistries.ITEM.getOptional(item).ifPresent(found -> LOCKS.put(found, research)));
             resolved = true;
+            LOGGER.info("Create: Thauma Research resolved {} item locks", LOCKS.size());
         }
         return stack.isEmpty() ? null : LOCKS.get(stack.getItem());
     }
@@ -79,38 +85,63 @@ public final class CreateThaumaResearch {
             return false;
         }
 
-        if (knowledgeOf == null && !reflectionFailed) {
+        if (knowledgeOf == null && oldResearchOf == null && !reflectionFailed) {
             try {
                 Class<?> knowledgeAccess = Class.forName("com.leclowndu93150.thaumaturge.api.capability.KnowledgeAccess");
                 knowledgeOf = knowledgeAccess.getMethod("of", Player.class);
 
                 for (Method method : knowledgeOf.getReturnType().getMethods()) {
-                    if (method.getName().equals("isResearchComplete") && method.getParameterCount() == 1) {
+                    if (method.getParameterCount() != 1) {
+                        continue;
+                    }
+                    if (method.getName().equals("isResearchComplete") && isResearchComplete == null) {
                         isResearchComplete = method;
-                        break;
+                    }
+                    if (method.getName().equals("isResearchKnown") && isResearchKnown == null) {
+                        isResearchKnown = method;
                     }
                 }
-                if (isResearchComplete == null) {
-                    throw new NoSuchMethodException("IPlayerKnowledge.isResearchComplete");
-                }
             } catch (ReflectiveOperationException | RuntimeException e) {
-                reflectionFailed = true;
-                LOGGER.error("Create: Thauma Research could not access Thaumaturge research knowledge", e);
+                LOGGER.debug("Create: Thauma Research could not bind KnowledgeAccess", e);
+            }
+
+            if (isResearchComplete == null && isResearchKnown == null) {
+                try {
+                    Class<?> oldAccess = Class.forName("com.leclowndu93150.thaumaturge.api.capability.PlayerResearchAccess");
+                    oldResearchOf = oldAccess.getMethod("of", Player.class);
+                    oldHasCompleted = oldResearchOf.getReturnType().getMethod("hasCompleted", ResourceLocation.class);
+                } catch (ReflectiveOperationException | RuntimeException e) {
+                    reflectionFailed = true;
+                    LOGGER.error("Create: Thauma Research could not access Thaumaturge research knowledge", e);
+                }
             }
         }
 
-        if (reflectionFailed || knowledgeOf == null || isResearchComplete == null) {
-            return false;
-        }
-
         try {
-            Object knowledge = knowledgeOf.invoke(null, player);
-            Object researchId = convertResearchId(isResearchComplete.getParameterTypes()[0], research);
-            return (boolean) isResearchComplete.invoke(knowledge, researchId);
+            if (knowledgeOf != null) {
+                Object knowledge = knowledgeOf.invoke(null, player);
+
+                if (isResearchComplete != null) {
+                    Object researchId = convertResearchId(isResearchComplete.getParameterTypes()[0], research);
+                    return (boolean) isResearchComplete.invoke(knowledge, researchId);
+                }
+
+                if (isResearchKnown != null) {
+                    Object researchId = convertResearchId(isResearchKnown.getParameterTypes()[0], research);
+                    return (boolean) isResearchKnown.invoke(knowledge, researchId);
+                }
+            }
+
+            if (oldResearchOf != null && oldHasCompleted != null) {
+                Object knowledge = oldResearchOf.invoke(null, player);
+                Object researchId = convertResearchId(oldHasCompleted.getParameterTypes()[0], research);
+                return (boolean) oldHasCompleted.invoke(knowledge, researchId);
+            }
         } catch (ReflectiveOperationException | RuntimeException e) {
             LOGGER.error("Create: Thauma Research failed to query completed research: {}", research, e);
-            return false;
         }
+
+        return false;
     }
 
     private static Object convertResearchId(Class<?> targetType, ResourceLocation research) throws ReflectiveOperationException {
