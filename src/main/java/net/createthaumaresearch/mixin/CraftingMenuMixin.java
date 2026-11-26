@@ -13,15 +13,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.ResultContainer;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 
 /**
- * Hides locked results and prevents both normal clicks and shift-clicks from taking them. The pickup checks are server-side;
- * clearing only the displayed result is not sufficient because the client can still submit a take-result action.
+ * Hides locked results and blocks shift-click extraction. ResultSlotMixin additionally guards
+ * ordinary result-slot pickups on the server.
  */
 @Mixin(CraftingMenu.class)
 public abstract class CraftingMenuMixin {

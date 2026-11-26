@@ -89,6 +89,7 @@ public final class CreateThaumaResearch {
             try {
                 Class<?> knowledgeAccess = Class.forName("com.leclowndu93150.thaumaturge.api.capability.KnowledgeAccess");
                 knowledgeOf = knowledgeAccess.getMethod("of", Player.class);
+
                 for (Method method : knowledgeOf.getReturnType().getMethods()) {
                     if (method.getParameterCount() != 1) {
                         continue;
@@ -119,15 +120,18 @@ public final class CreateThaumaResearch {
         try {
             if (knowledgeOf != null) {
                 Object knowledge = knowledgeOf.invoke(null, player);
+
                 if (isResearchComplete != null) {
                     Object researchId = convertResearchId(isResearchComplete.getParameterTypes()[0], research);
                     return (boolean) isResearchComplete.invoke(knowledge, researchId);
                 }
+
                 if (isResearchKnown != null) {
                     Object researchId = convertResearchId(isResearchKnown.getParameterTypes()[0], research);
                     return (boolean) isResearchKnown.invoke(knowledge, researchId);
                 }
             }
+
             if (oldResearchOf != null && oldHasCompleted != null) {
                 Object knowledge = oldResearchOf.invoke(null, player);
                 Object researchId = convertResearchId(oldHasCompleted.getParameterTypes()[0], research);
@@ -136,6 +140,7 @@ public final class CreateThaumaResearch {
         } catch (ReflectiveOperationException | RuntimeException e) {
             LOGGER.error("Create: Thauma Research failed to query completed research: {}", research, e);
         }
+
         return false;
     }
 
@@ -143,15 +148,18 @@ public final class CreateThaumaResearch {
         if (targetType.isInstance(research)) {
             return research;
         }
+
         try {
             return targetType.getMethod("parse", String.class).invoke(null, research.toString());
         } catch (NoSuchMethodException ignored) {
         }
+
         try {
             return targetType.getMethod("fromNamespaceAndPath", String.class, String.class)
                     .invoke(null, research.getNamespace(), research.getPath());
         } catch (NoSuchMethodException ignored) {
         }
+
         try {
             return targetType.getConstructor(String.class, String.class)
                     .newInstance(research.getNamespace(), research.getPath());

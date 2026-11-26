@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-/** Server-side guard for ordinary clicks on a crafting result slot. */
+/** Server-side guard for ordinary pickups from a vanilla crafting result slot. */
 @Mixin(ResultSlot.class)
 public abstract class ResultSlotMixin {
     @Inject(method = "mayPickup", at = @At("HEAD"), cancellable = true)
