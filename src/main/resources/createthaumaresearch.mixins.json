@@ -3,6 +3,13 @@
   "minVersion": "0.8",
   "package": "net.createthaumaresearch.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["CraftingMenuMixin"],
-  "injectors": {"defaultRequire": 1}
+  "mixins": [
+    "CraftingMenuMixin",
+    "LevelAccessor",
+    "FanProcessingMixin",
+    "AirCurrentMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

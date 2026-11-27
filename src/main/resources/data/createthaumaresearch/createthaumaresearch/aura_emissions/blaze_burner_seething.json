@@ -1,0 +1,10 @@
+{
+  "type": "block",
+  "blocks": ["create:blaze_burner"],
+  "state": {"blaze": ["seething"]},
+  "interval": 100,
+  "chance": 0.75,
+  "flux": 0.25,
+  "spill_chance": 0.05,
+  "effect": true
+}

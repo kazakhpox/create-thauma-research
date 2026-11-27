@@ -63,6 +63,8 @@ neoForge {
 dependencies {
     // Create and Thaumaturge are reached by name at run time: nothing of theirs is needed to compile. Thaumaturge is on no public
     // maven: put its jar at libs/thaumaturge.jar (not committed) to run the dev client and server.
+    // Create is compiled against for the mixins on its fan processing (its classes are only named, never shipped).
+    compileOnly "maven.modrinth:create:${create_version}"
     runtimeOnly "maven.modrinth:create:${create_version}"
     runtimeOnly "maven.modrinth:curios:${curios_version}"
     runtimeOnly "maven.modrinth:lithostitched:1.8.0-neoforge-21.1"

@@ -1,0 +1,9 @@
+{
+  "type": "fan_processing",
+  "processing": ["create:blasting"],
+  "items": ["#create:crushed_raw_materials", "#c:raw_materials", "#c:ores"],
+  "chance": 0.5,
+  "flux": 0.1,
+  "spill_chance": 0.01,
+  "effect": true
+}

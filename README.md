@@ -37,3 +37,73 @@ Create items that no research unlocks (decorative blocks, materials and so on) s
 | Packages and Orders | packager, frogport, stock link, stock ticker, factory gauge |
 
 `tools/gen.py` generates the chapter, its entries, the texts and the lock list (`data/createthaumaresearch/research_locks.json`).
+
+## Machines and the aura
+
+Create's machines pollute the aura with flux, the same way Thaumaturge's crucible does. Flux goes into the chunk's aura (with the same particles), and sometimes physical flux spills next to the machine.
+
+What the mod ships with:
+
+| Source | When | Default |
+|---|---|---|
+| Steam engine (`create:powered_shaft`) | while it turns; scales with rpm | 0.1 flux × rpm/64, half the time, every 10 s; sometimes spills flux |
+| Blaze burner, kindled | `blaze = kindled` | 0.05 flux, half the time, every 15 s |
+| Blaze burner, seething (blaze cake) | `blaze = seething` | 0.25 flux, 75 % of the time, every 5 s; sometimes spills flux |
+| Ore blasting (fan through lava/fire) | each crushed ore, raw ore or ore processed | 0.1 flux per item, half the time |
+| Ore washing (fan through water) | each crushed ore, gravel, soul sand or red sand washed | 0.05 flux per item, 30 % of the time |
+
+Fan processing counts loose items, items on belts and items on depots.
+
+### Config
+
+`config/createthaumaresearch-common.toml`:
+- `enabled`: whether machines emit flux at all;
+- `flux_multiplier`: every emission's flux is multiplied by this;
+- `scan_interval`: ticks between scans of the working machines;
+- `allow_spill`: whether rules may spill physical flux.
+
+### Your own rules
+
+Put a JSON file in a datapack at `data/<namespace>/createthaumaresearch/aura_emissions/<name>.json`. To change or turn off a built-in rule, replace the file `data/createthaumaresearch/createthaumaresearch/aura_emissions/<name>.json` (set `"flux": 0` to switch it off).
+
+A **block** rule covers any ticking block (a block entity), from Create or any other mod:
+
+```json
+{
+  "type": "block",
+  "blocks": ["create:blaze_burner", "#mymod:furnaces"],
+  "state": {"blaze": ["kindled", "seething"]},
+  "min_speed": 1,
+  "scale_with_speed": false,
+  "interval": 100,
+  "chance": 0.5,
+  "flux": 0.25,
+  "spill_chance": 0.0,
+  "effect": true
+}
+```
+
+A **fan processing** rule covers an encased fan processing items:
+
+```json
+{
+  "type": "fan_processing",
+  "processing": ["create:splashing"],
+  "items": ["#create:crushed_raw_materials"],
+  "chance": 0.3,
+  "flux": 0.05
+}
+```
+
+Fields:
+- `blocks`: block ids or block tags (`#…`).
+- `state`: the block state properties that must match, each with the values allowed.
+- `min_speed`: the minimum rpm a kinetic block must turn at (any block entity with Create's `getSpeed()`).
+- `scale_with_speed`: multiply the flux by rpm/64.
+- `interval`: ticks between tries.
+- `processing`: Create fan processing types (`create:splashing`, `create:blasting`, `create:haunting`, `create:smoking`).
+- `items`: item ids or tags the rule is limited to.
+- `chance`: chance per try or per item.
+- `flux`: how much flux goes into the aura.
+- `spill_chance`: chance to also spill physical flux.
+- `effect`: whether to show the pollution particles.

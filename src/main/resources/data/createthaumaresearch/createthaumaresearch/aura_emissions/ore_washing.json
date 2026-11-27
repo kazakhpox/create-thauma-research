@@ -1,0 +1,8 @@
+{
+  "type": "fan_processing",
+  "processing": ["create:splashing"],
+  "items": ["#create:crushed_raw_materials", "minecraft:gravel", "minecraft:soul_sand", "minecraft:red_sand"],
+  "chance": 0.3,
+  "flux": 0.05,
+  "effect": true
+}

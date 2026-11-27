@@ -1,0 +1,1 @@
+{"type": "block", "blocks": ["create:shaft"], "min_speed": 1, "interval": 20, "flux": 0.5, "effect": false}

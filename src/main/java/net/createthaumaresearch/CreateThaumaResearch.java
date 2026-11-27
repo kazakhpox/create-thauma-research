@@ -47,7 +47,9 @@ public final class CreateThaumaResearch {
     private static Method hasCompleted;
     private static boolean reflectionFailed;
 
-    public CreateThaumaResearch(IEventBus modBus) {
+    public CreateThaumaResearch(IEventBus modBus, net.neoforged.fml.ModContainer container) {
+        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, net.createthaumaresearch.aura.EmissionConfig.SPEC);
+        net.createthaumaresearch.aura.Emissions.register();
         try (InputStream in = CreateThaumaResearch.class.getResourceAsStream("/data/" + MOD_ID + "/research_locks.json")) {
             JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
             json.entrySet().forEach(e -> RAW.put(ResourceLocation.parse(e.getKey()), ResourceLocation.parse(e.getValue().getAsString())));

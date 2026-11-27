@@ -1,0 +1,11 @@
+{
+  "type": "block",
+  "blocks": ["create:powered_shaft"],
+  "min_speed": 1,
+  "scale_with_speed": true,
+  "interval": 200,
+  "chance": 0.5,
+  "flux": 0.1,
+  "spill_chance": 0.02,
+  "effect": true
+}
