@@ -97,42 +97,52 @@ public final class ShotDriver {
         System.out.println("[shots] casing " + when + ": " + level.getBlockState(at).getBlock());
     }
 
+    /** Lays two andesite alloys (the shaft recipe) in the grid of the crafting table the player has open, as a player would. */
+    private static void fillGrid(ServerPlayer player) {
+        var menu = player.containerMenu;
+        System.out.println("[shots] open menu on the server: " + menu.getClass().getSimpleName());
+        menu.getSlot(2).set(item("create:andesite_alloy"));
+        menu.getSlot(5).set(item("create:andesite_alloy"));
+        menu.slotsChanged(null);
+        menu.broadcastChanges();
+        System.out.println("[shots] server result slot: " + menu.getSlot(0).getItem());
+    }
+
+    private static void clientResult(String when) {
+        var mc = Minecraft.getInstance();
+        System.out.println("[shots] client screen " + (mc.screen == null ? "none" : mc.screen.getClass().getSimpleName())
+                + ", result slot " + when + ": " + mc.player.containerMenu.getSlot(0).getItem());
+    }
+
     private void plan() {
         when("title", () -> Minecraft.getInstance().screen instanceof TitleScreen, this::createWorld);
         when("in world", () -> Minecraft.getInstance().player != null && Minecraft.getInstance().getSingleplayerServer() != null
                 && Minecraft.getInstance().screen == null, () -> wait = 80);
-        then("locked", 40, () -> server(player -> {
-            player.teleportTo(player.serverLevel(), 0.5, -60, -1.5, 0.0F, 30.0F);
-            craftShaft(player, "before research");
-            applyCasing(player, "before research");
+        then("table", 40, () -> server(player -> {
+            player.serverLevel().setBlockAndUpdate(new BlockPos(0, -60, 2), block("minecraft:crafting_table"));
+            player.getInventory().clearContent();
+            player.teleportTo(player.serverLevel(), 0.5, -60, 0.3, 0.0F, 35.0F);
         }));
-        then("locked client", 1, () -> System.out.println("[shots] client sees in the result slot before research: "
-                + Minecraft.getInstance().player.containerMenu.getSlot(0).getItem() + " (screen " + Minecraft.getInstance().screen + ")"));
-        then("locked shot", 5, () -> shot("00_locked_crafting"));
-        then("tooltip", 20, () -> {
-            Minecraft.getInstance().setScreen(null);
-            var lines = item("create:mechanical_press").getTooltipLines(net.minecraft.world.item.Item.TooltipContext.EMPTY,
-                    Minecraft.getInstance().player, net.minecraft.world.item.TooltipFlag.NORMAL);
-            System.out.println("[shots] press tooltip: " + lines.stream().map(c -> c.getString()).toList());
-        });
-        then("research", 60, () -> server(player -> {
+        then("open table", 30, ShotDriver::use);
+        then("fill", 20, () -> server(ShotDriver::fillGrid));
+        then("locked client", 1, () -> clientResult("before research"));
+        then("locked shot", 5, () -> shot("00_crafting_before_research"));
+        then("close", 20, () -> server(player -> {
             player.closeContainer();
+            player.getInventory().clearContent();
             command(player, "thaumaturge research @a everything");
         }));
-        then("unlocked", 40, () -> server(player -> {
-            craftShaft(player, "after research");
-            applyCasing(player, "after research");
-        }));
-        then("unlocked client", 1, () -> System.out.println("[shots] client sees in the result slot after research: "
-                + Minecraft.getInstance().player.containerMenu.getSlot(0).getItem()));
-        then("unlocked shot", 5, () -> shot("01_unlocked_crafting"));
-        then("book", 40, () -> server(player -> {
-            player.closeContainer();
-            player.getInventory().setItem(4, item("thaumaturge:thaumonomicon"));
-        }));
-        then("open book", 60, ShotDriver::use);
-        then("book shot", 5, () -> shot("02_book"));
-        then("quit", 5, () -> Minecraft.getInstance().stop());
+        then("reopen", 60, ShotDriver::use);
+        then("refill", 20, () -> server(ShotDriver::fillGrid));
+        then("unlocked client", 1, () -> clientResult("after research"));
+        then("unlocked shot", 5, () -> shot("01_crafting_after_research"));
+        then("quit", 20, () -> {
+            server(player -> {
+                player.closeContainer();
+                player.getInventory().clearContent();
+            });
+        });
+        then("stop", 5, () -> Minecraft.getInstance().stop());
     }
 
     private static ItemStack item(String id) {
