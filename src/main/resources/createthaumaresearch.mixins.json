@@ -4,16 +4,9 @@
   "package": "net.createthaumaresearch.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "CraftingMenuMixin",
-    "StonecutterMenuMixin",
-    "SmithingMenuMixin",
-    "FurnaceMixin",
     "LevelAccessor",
     "FanProcessingMixin",
-    "AirCurrentMixin",
-    "DeployerMixin",
-    "MechanicalCrafterMixin",
-    "RecipeGridHandlerMixin"
+    "AirCurrentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

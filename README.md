@@ -2,6 +2,8 @@
 
 A Thaumaturge addon for NeoForge 1.21.1 that adds a new Thaumonomicon chapter, **Mechanoturgy** (Механотургия). Its research unlocks the machines of [Create](https://github.com/Creators-of-Create/Create).
 
+Requires Create 6, Thaumaturge and [Thaumaturge Research Gates](https://github.com/kazakhpox/Thaumaturge-Research-Gates).
+
 The research is ordinary Thaumaturge data and works the same way as Thaumaturge's own:
 - you open it with observations and theories from the existing chapters;
 - you scan things with a given aspect;
@@ -12,7 +14,7 @@ Each entry reads as a note in the thaumaturge's journal, in English and Russian.
 
 **Opening the chapter:** "Mechanoturgy" in the first chapter, after Artifice (one Artifice observation, plus scans of Motus and Machina).
 
-**Locks:** until you complete the research that unlocks a Create item, every recipe that makes that item is locked (see the research gates below). Its tooltip names the research it needs. Create items that no research unlocks (decorative blocks, materials and so on) stay free.
+**Locks:** until you complete the research that unlocks a Create item, every recipe that makes that item is locked. Thaumaturge Research Gates enforces this; see below. Its tooltip names the research it needs. Create items that no research unlocks (decorative blocks, materials and so on) stay free.
 
 | Research | Unlocks |
 |---|---|
@@ -103,57 +105,14 @@ Fields:
 - `spill_chance`: chance to also spill physical flux.
 - `effect`: whether to show the pollution particles.
 
-## Research gates (locking any recipe)
+## Research gates
 
-Thaumaturge only locks its own recipes: the arcane workbench, the crucible and infusion each carry `"research": {"entry", "stage", "negate"}`. The crafting table, furnaces and stonecutter are not locked by research. This mod adds a small library that locks **any** recipe the same way, behind research. [RecipeStages](https://github.com/jaredlll08/RecipeStages) was the model, but here the stages are research.
+[Thaumaturge Research Gates](https://github.com/kazakhpox/Thaumaturge-Research-Gates) is a separate library and a required dependency. It does the actual locking.
 
-The check itself is Thaumaturge's own (`ResearchGate.passes`), so `entry`, `stage` and `negate` mean exactly what they mean in Thaumaturge's recipes.
+This mod ships one gate per research in `data/createthaumaresearch/research_gates/`. Each gate locks every recipe that makes the items the research unlocks. That covers:
+- the crafting table and inventory;
+- the stonecutter and smithing table;
+- furnaces;
+- Create's item application (casings), deployer and mechanical crafter.
 
-### Gate files
-
-Put a JSON file in a datapack at `data/<namespace>/createthaumaresearch/research_gates/<name>.json`:
-
-```json
-{
-  "research": {"entry": "thaumaturge:metallurgy", "stage": 1, "negate": false},
-  "recipes": ["minecraft:iron_ingot_from_smelting_raw_iron"],
-  "outputs": ["create:cogwheel", "#c:gears"],
-  "recipe_types": ["minecraft:smithing_transform"],
-  "namespaces": ["mymod"],
-  "except": ["create:crafting/kinetics/cogwheel_from_conversion"]
-}
-```
-
-- `research`: the research that opens the recipes. `stage` and `negate` are optional.
-- `recipes`: recipe ids.
-- `outputs`: every recipe that makes one of these items or tags.
-- `recipe_types`: every recipe of these types.
-- `namespaces`: every recipe whose id is in these mods.
-- `except`: recipes left free.
-
-A recipe matching any of the lists is locked. A recipe under several gates needs all of them.
-
-### Where the gates apply
-
-| Where | Whose research |
-|---|---|
-| Crafting table, inventory grid | the player crafting; the result slot stays empty |
-| Stonecutter, smithing table | the player; the result slot stays empty |
-| Furnace, smoker, blast furnace | the player who placed it; the recipe does not burn |
-| Create: applying a casing (item application) | the player; the use is refused with a message |
-| Create: deployer | its owner (the player who placed it) |
-| Create: mechanical crafter | the player who placed the crafter |
-
-Machines remember who placed them. While the owner is offline, the answer from when they were last online is used. Config, in the `research_gates` section:
-- `lock_unowned_machines` (default `false`): whether machines nobody placed (world generation, commands) are also refused;
-- `gate_furnaces`: turns furnace gating off.
-
-### For other mods
-
-`net.createthaumaresearch.gate.ResearchGates` provides:
-- `mayUse(player, recipeHolder, output)`: for a player;
-- `mayUse(level, ownerUuid, recipeHolder, output)`: for a machine;
-- `gatesFor(recipeHolder, output)`;
-- `refusal(...)`: the message to show.
-
-`Owners.ownerOf(blockEntity)` / `setOwner` give a machine's owner.
+You can add or change gates in a datapack in the same format. The library's README describes the format.

@@ -68,6 +68,10 @@ dependencies {
     runtimeOnly "maven.modrinth:create:${create_version}"
     runtimeOnly "maven.modrinth:curios:${curios_version}"
     runtimeOnly "maven.modrinth:lithostitched:1.8.0-neoforge-21.1"
+    // Thaumaturge Research Gates, which enforces this mod's gates: its release jar at libs/researchgates.jar to run in dev.
+    if (file('libs/researchgates.jar').exists()) {
+        runtimeOnly files('libs/researchgates.jar')
+    }
     if (file('libs/thaumaturge.jar').exists()) {
         runtimeOnly files('libs/thaumaturge.jar')
     }

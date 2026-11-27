@@ -25,7 +25,6 @@ public final class EmissionConfig {
         SPILL = b.comment("Whether rules may spill physical flux (goo) next to the machine, as an overflowing crucible does.")
                 .define("allow_spill", true);
         b.pop();
-        net.createthaumaresearch.gate.GateConfig.define(b);
         SPEC = b.build();
     }
 

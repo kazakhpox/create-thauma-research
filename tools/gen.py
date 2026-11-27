@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Writes the Mechanoturgy chapter: the Thaumonomicon category, its research entries (in Thaumaturge's own data format), their texts in
-English and Russian, and the research gates (which Create items each research unlocks).
+English and Russian, and the research gates (which Create items each research unlocks; Thaumaturge Research Gates enforces them).
 
 Usage: gen.py <create jar> <thaumaturge jar> <resources dir>
 
@@ -340,7 +340,7 @@ def main(create_jar, th_jar, resources):
     create = zipfile.ZipFile(create_jar)
     th = zipfile.ZipFile(th_jar)
     # Only what this script writes is cleared: the aura emission rules beside it are written by hand.
-    for folder in ('data/%s/thaumaturge' % NS, 'data/%s/createthaumaresearch/research_gates' % NS, 'assets/%s' % NS):
+    for folder in ('data/%s/thaumaturge' % NS, 'data/%s/research_gates' % NS, 'assets/%s' % NS):
         shutil.rmtree(os.path.join(resources, folder), ignore_errors=True)
     old_locks = os.path.join(resources, 'data/%s/research_locks.json' % NS)
     if os.path.exists(old_locks):
@@ -403,8 +403,6 @@ def main(create_jar, th_jar, resources):
             for i, text in enumerate(texts):
                 lang[code]['research.%s.%s.stage_%d' % (NS, eid, i)] = text
 
-    lang['en_us']['tooltip.%s.locked' % NS] = 'Needs the research: %s'
-    lang['ru_ru']['tooltip.%s.locked' % NS] = 'Нужно исследование: %s'
     for code, values in lang.items():
         files['assets/%s/lang/%s.json' % (NS, code)] = values
     # One gate per research: every recipe making the items it opens is locked until the research is complete.
@@ -412,7 +410,7 @@ def main(create_jar, th_jar, resources):
     for item, research in locks.items():
         by_research.setdefault(research, []).append(item)
     for research, items in sorted(by_research.items()):
-        files['data/%s/createthaumaresearch/research_gates/%s.json' % (NS, research.split(':')[1])] = {
+        files['data/%s/research_gates/%s.json' % (NS, research.split(':')[1])] = {
             'research': {'entry': research}, 'outputs': sorted(items)}
 
     for path, value in files.items():
