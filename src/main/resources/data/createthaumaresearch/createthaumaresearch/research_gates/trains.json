@@ -1,0 +1,13 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:trains"
+  },
+  "outputs": [
+    "create:controls",
+    "create:railway_casing",
+    "create:schedule",
+    "create:track_observer",
+    "create:track_signal",
+    "create:track_station"
+  ]
+}

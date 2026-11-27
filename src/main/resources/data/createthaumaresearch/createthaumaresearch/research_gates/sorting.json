@@ -1,0 +1,15 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:sorting"
+  },
+  "outputs": [
+    "create:attribute_filter",
+    "create:brass_funnel",
+    "create:brass_tunnel",
+    "create:content_observer",
+    "create:filter",
+    "create:mechanical_arm",
+    "create:smart_chute",
+    "create:stockpile_switch"
+  ]
+}

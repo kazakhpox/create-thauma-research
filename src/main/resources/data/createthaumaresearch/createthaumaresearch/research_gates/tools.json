@@ -1,0 +1,11 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:tools"
+  },
+  "outputs": [
+    "create:mechanical_drill",
+    "create:mechanical_harvester",
+    "create:mechanical_plough",
+    "create:mechanical_saw"
+  ]
+}

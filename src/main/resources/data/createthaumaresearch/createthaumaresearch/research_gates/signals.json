@@ -1,0 +1,20 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:signals"
+  },
+  "outputs": [
+    "create:analog_lever",
+    "create:clutch",
+    "create:display_board",
+    "create:display_link",
+    "create:gearshift",
+    "create:nixie_tube",
+    "create:powered_latch",
+    "create:powered_toggle_latch",
+    "create:pulse_repeater",
+    "create:pulse_timer",
+    "create:redstone_contact",
+    "create:redstone_link",
+    "create:sequenced_gearshift"
+  ]
+}

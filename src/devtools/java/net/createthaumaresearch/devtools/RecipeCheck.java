@@ -115,11 +115,15 @@ public final class RecipeCheck {
         level.setBlockAndUpdate(fan, net.minecraft.core.registries.BuiltInRegistries.BLOCK.get(ResourceLocation.parse("create:encased_fan"))
                 .defaultBlockState().setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING, net.minecraft.core.Direction.EAST));
         level.setBlockAndUpdate(fan.east(), net.minecraft.world.level.block.Blocks.WATER.defaultBlockState());
+        // A glass trough in front of the fan, so the water stays put and the ore stays in the air current.
         for (int i = 1; i < 6; i++) {
             for (int dz = -1; dz <= 1; dz++) {
                 level.setBlockAndUpdate(fan.east(i).below().south(dz), net.minecraft.world.level.block.Blocks.STONE.defaultBlockState());
             }
+            level.setBlockAndUpdate(fan.east(i).north(), net.minecraft.world.level.block.Blocks.GLASS.defaultBlockState());
+            level.setBlockAndUpdate(fan.east(i).south(), net.minecraft.world.level.block.Blocks.GLASS.defaultBlockState());
         }
+        level.setBlockAndUpdate(fan.east(6), net.minecraft.world.level.block.Blocks.GLASS.defaultBlockState());
         for (int i = 0; i < 3; i++) {
             before[i] = flux(level, places[i]);
         }
@@ -130,11 +134,16 @@ public final class RecipeCheck {
             if (ticks % 40 == 0 && ticks <= 400) {
                 var crushed = new net.minecraft.world.item.ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(
                         ResourceLocation.parse("create:crushed_raw_iron")), 4);
-                var entity = new net.minecraft.world.entity.item.ItemEntity(level, fan.getX() + 2.5, fan.getY() + 0.2, fan.getZ() + 0.5, crushed);
+                var entity = new net.minecraft.world.entity.item.ItemEntity(level, fan.getX() + 1.5, fan.getY() + 0.3, fan.getZ() + 0.5, crushed);
                 entity.setDeltaMovement(0, 0, 0);
                 level.addFreshEntity(entity);
             }
             if (ticks == 600) {
+                for (int f = 0; f < 2; f++) {
+                    var furnace = (net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity) level.getBlockEntity(FURNACES[f]);
+                    System.out.println("[createthaumaresearch.check] furnace " + (f == 0 ? "owned by a player without research" : "placed by nobody")
+                            + ": output " + furnace.getItem(2) + ", input " + furnace.getItem(0));
+                }
                 String[] names = {"seething blaze burner", "turning shaft (test rule)", "fan washing crushed iron"};
                 for (int i = 0; i < 3; i++) {
                     System.out.println("[createthaumaresearch.check] flux " + names[i] + ": " + before[i] + " -> " + flux(level, places[i]));
@@ -160,7 +169,37 @@ public final class RecipeCheck {
         menu.getSlot(5).set(new net.minecraft.world.item.ItemStack(alloy));
         menu.slotsChanged(null);
         System.out.println("[createthaumaresearch.check] crafting shaft without research: " + menu.getSlot(0).getItem());
+
+        // The stonecutter: stone bricks gated (test gate), stone slabs free.
+        var cutter = new net.minecraft.world.inventory.StonecutterMenu(1, player.getInventory(),
+                net.minecraft.world.inventory.ContainerLevelAccess.create(level, player.blockPosition()));
+        cutter.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.STONE, 4));
+        cutter.slotsChanged(cutter.container);
+        for (int i = 0; i < cutter.getRecipes().size(); i++) {
+            String made = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(
+                    cutter.getRecipes().get(i).value().getResultItem(level.registryAccess()).getItem()).getPath();
+            if (made.equals("stone_bricks") || made.equals("stone_slab")) {
+                cutter.clickMenuButton(player, i);
+                System.out.println("[createthaumaresearch.check] stonecutter " + made + ": " + cutter.getSlot(1).getItem());
+            }
+        }
+
+        // Furnaces: one placed by the player without research, one placed by nobody; both smelt raw iron (gated by a test gate).
+        var spawn = level.getSharedSpawnPos();
+        FURNACES[0] = level.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING, spawn.offset(4, 0, 4)).above();
+        FURNACES[1] = FURNACES[0].east(2);
+        for (int i = 0; i < 2; i++) {
+            level.setBlockAndUpdate(FURNACES[i], net.minecraft.world.level.block.Blocks.FURNACE.defaultBlockState());
+            var furnace = (net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity) level.getBlockEntity(FURNACES[i]);
+            furnace.setItem(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.RAW_IRON, 2));
+            furnace.setItem(1, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.COAL, 2));
+            if (i == 0) {
+                net.createthaumaresearch.gate.Owners.setOwner(furnace, player.getUUID());
+            }
+        }
     }
+
+    private static final net.minecraft.core.BlockPos[] FURNACES = new net.minecraft.core.BlockPos[2];
 
     private static <T extends Comparable<T>> net.minecraft.world.level.block.state.BlockState setNamed(
             net.minecraft.world.level.block.state.BlockState state, net.minecraft.world.level.block.state.properties.Property<T> property, String name) {

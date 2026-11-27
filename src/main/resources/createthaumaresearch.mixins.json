@@ -5,9 +5,15 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "CraftingMenuMixin",
+    "StonecutterMenuMixin",
+    "SmithingMenuMixin",
+    "FurnaceMixin",
     "LevelAccessor",
     "FanProcessingMixin",
-    "AirCurrentMixin"
+    "AirCurrentMixin",
+    "DeployerMixin",
+    "MechanicalCrafterMixin",
+    "RecipeGridHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

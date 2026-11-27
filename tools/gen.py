@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Writes the Mechanoturgy chapter: the Thaumonomicon category, its research entries (in Thaumaturge's own data format), their texts in
-English and Russian, and the lock list (which Create items each research unlocks).
+English and Russian, and the research gates (which Create items each research unlocks).
 
 Usage: gen.py <create jar> <thaumaturge jar> <resources dir>
 
@@ -339,8 +339,12 @@ def recipes_for(create, items):
 def main(create_jar, th_jar, resources):
     create = zipfile.ZipFile(create_jar)
     th = zipfile.ZipFile(th_jar)
-    for folder in ('data/%s' % NS, 'assets/%s' % NS):
+    # Only what this script writes is cleared: the aura emission rules beside it are written by hand.
+    for folder in ('data/%s/thaumaturge' % NS, 'data/%s/createthaumaresearch/research_gates' % NS, 'assets/%s' % NS):
         shutil.rmtree(os.path.join(resources, folder), ignore_errors=True)
+    old_locks = os.path.join(resources, 'data/%s/research_locks.json' % NS)
+    if os.path.exists(old_locks):
+        os.remove(old_locks)
     files = {}
     lang = {'en_us': {}, 'ru_ru': {}}
     known = {n.split('/')[-1][:-5] for n in create.namelist() if n.startswith('assets/create/models/item/')}
@@ -403,7 +407,13 @@ def main(create_jar, th_jar, resources):
     lang['ru_ru']['tooltip.%s.locked' % NS] = 'Нужно исследование: %s'
     for code, values in lang.items():
         files['assets/%s/lang/%s.json' % (NS, code)] = values
-    files['data/%s/research_locks.json' % NS] = dict(sorted(locks.items()))
+    # One gate per research: every recipe making the items it opens is locked until the research is complete.
+    by_research = {}
+    for item, research in locks.items():
+        by_research.setdefault(research, []).append(item)
+    for research, items in sorted(by_research.items()):
+        files['data/%s/createthaumaresearch/research_gates/%s.json' % (NS, research.split(':')[1])] = {
+            'research': {'entry': research}, 'outputs': sorted(items)}
 
     for path, value in files.items():
         file = os.path.join(resources, path)

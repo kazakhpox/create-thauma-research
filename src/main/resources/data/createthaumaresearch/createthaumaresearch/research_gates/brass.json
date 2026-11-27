@@ -1,0 +1,12 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:brass"
+  },
+  "outputs": [
+    "create:brass_casing",
+    "create:brass_hand",
+    "create:electron_tube",
+    "create:red_sand_paper",
+    "create:sand_paper"
+  ]
+}

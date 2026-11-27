@@ -1,0 +1,10 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:measuring"
+  },
+  "outputs": [
+    "create:goggles",
+    "create:speedometer",
+    "create:stressometer"
+  ]
+}

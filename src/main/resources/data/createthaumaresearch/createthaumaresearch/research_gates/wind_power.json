@@ -1,0 +1,11 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:wind_power"
+  },
+  "outputs": [
+    "create:mechanical_bearing",
+    "create:sail_frame",
+    "create:white_sail",
+    "create:windmill_bearing"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:precision"
+  },
+  "outputs": [
+    "create:crafter_slot_cover",
+    "create:deployer",
+    "create:mechanical_crafter",
+    "create:rotation_speed_controller"
+  ]
+}

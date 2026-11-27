@@ -1,0 +1,22 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:contraptions"
+  },
+  "outputs": [
+    "create:cart_assembler",
+    "create:contraption_controls",
+    "create:elevator_pulley",
+    "create:gantry_carriage",
+    "create:gantry_shaft",
+    "create:linear_chassis",
+    "create:mechanical_piston",
+    "create:piston_extension_pole",
+    "create:portable_storage_interface",
+    "create:radial_chassis",
+    "create:rope_pulley",
+    "create:sticker",
+    "create:sticky_mechanical_piston",
+    "create:super_glue",
+    "create:turntable"
+  ]
+}

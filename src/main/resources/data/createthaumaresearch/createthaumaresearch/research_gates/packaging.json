@@ -1,0 +1,16 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:packaging"
+  },
+  "outputs": [
+    "create:cardboard_block",
+    "create:factory_gauge",
+    "create:package_filter",
+    "create:package_frogport",
+    "create:packager",
+    "create:redstone_requester",
+    "create:repackager",
+    "create:stock_link",
+    "create:stock_ticker"
+  ]
+}

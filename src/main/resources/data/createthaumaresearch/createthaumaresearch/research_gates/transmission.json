@@ -1,0 +1,13 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:transmission"
+  },
+  "outputs": [
+    "create:adjustable_chain_gearshift",
+    "create:belt_connector",
+    "create:encased_chain_drive",
+    "create:gearbox",
+    "create:large_cogwheel",
+    "create:vertical_gearbox"
+  ]
+}

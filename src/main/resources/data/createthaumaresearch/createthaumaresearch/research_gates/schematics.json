@@ -1,0 +1,13 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:schematics"
+  },
+  "outputs": [
+    "create:clipboard",
+    "create:crafting_blueprint",
+    "create:empty_schematic",
+    "create:schematic_and_quill",
+    "create:schematic_table",
+    "create:schematicannon"
+  ]
+}

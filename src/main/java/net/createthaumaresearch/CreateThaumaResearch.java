@@ -1,23 +1,16 @@
 package net.createthaumaresearch;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
 
-import net.minecraft.ChatFormatting;
+import net.createthaumaresearch.gate.Gate;
+import net.createthaumaresearch.gate.ResearchGates;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -31,19 +24,15 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 /**
- * Create: Thauma Research. A Thaumonomicon chapter, Mechanoturgy, whose research (plain Thaumaturge data) opens Create's machines:
- * until a player has completed the research that opens an item, the crafting grid gives nothing for it and its casing cannot be
- * applied to a log. Which research opens which item is {@code data/createthaumaresearch/research_locks.json}, written with the
- * chapter by {@code tools/gen.py}.
+ * Create: Thauma Research. A Thaumonomicon chapter, Mechanoturgy, whose research (plain Thaumaturge data) opens Create's machines.
+ * The locking is a small library, {@link net.createthaumaresearch.gate.ResearchGates}: datapack gates that lock any recipe until a
+ * research passes Thaumaturge's own check, obeyed by the crafting grid, stonecutter, smithing table, furnaces and Create's
+ * machines. The chapter's own gates are written with it by {@code tools/gen.py}.
  */
 @Mod(CreateThaumaResearch.MOD_ID)
 public final class CreateThaumaResearch {
     public static final String MOD_ID = "createthaumaresearch";
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Map<Item, ResourceLocation> LOCKS = new HashMap<>();
-    private static final Map<ResourceLocation, ResourceLocation> RAW = new HashMap<>();
-    private static boolean resolved;
-
     private static Method knowledgeOf;
     private static Method isResearchComplete;
     private static Method isResearchKnown;
@@ -54,31 +43,10 @@ public final class CreateThaumaResearch {
     public CreateThaumaResearch(IEventBus modBus, net.neoforged.fml.ModContainer container) {
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, net.createthaumaresearch.aura.EmissionConfig.SPEC);
         net.createthaumaresearch.aura.Emissions.register();
-        try (InputStream in = CreateThaumaResearch.class.getResourceAsStream("/data/" + MOD_ID + "/research_locks.json")) {
-            JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
-            json.entrySet().forEach(e -> RAW.put(ResourceLocation.parse(e.getKey()), ResourceLocation.parse(e.getValue().getAsString())));
-            LOGGER.info("Create: Thauma Research loaded {} research locks", RAW.size());
-        } catch (Exception e) {
-            LOGGER.error("Create: Thauma Research could not read its research locks", e);
-        }
+        net.createthaumaresearch.gate.ResearchGates.register();
+        net.createthaumaresearch.gate.Owners.register(modBus);
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, PlayerInteractEvent.RightClickBlock.class, CreateThaumaResearch::onUseOnBlock);
         NeoForge.EVENT_BUS.addListener(ItemTooltipEvent.class, CreateThaumaResearch::onTooltip);
-    }
-
-    /** The research that opens this item, or null if it is free. */
-    public static ResourceLocation lockOf(ItemStack stack) {
-        if (!resolved) {
-            RAW.forEach((item, research) -> BuiltInRegistries.ITEM.getOptional(item).ifPresent(found -> LOCKS.put(found, research)));
-            resolved = true;
-            LOGGER.info("Create: Thauma Research resolved {} item locks", LOCKS.size());
-        }
-        return stack.isEmpty() ? null : LOCKS.get(stack.getItem());
-    }
-
-    /** Whether the player may make this item: it is free, or they have completed its research. */
-    public static boolean mayMake(Player player, ItemStack stack) {
-        ResourceLocation research = lockOf(stack);
-        return research == null || player == null || completed(player, research);
     }
 
     /** Thaumaturge's own record of the player's research, reached by name (this mod compiles without Thaumaturge). */
@@ -174,7 +142,7 @@ public final class CreateThaumaResearch {
         return Component.translatable("research." + research.getNamespace() + "." + research.getPath() + ".title");
     }
 
-    /** Create's casings are made by using an alloy or ingot on a log (item application): refused while the casing is locked. */
+    /** Create's casings are made by using an alloy or ingot on a log (item application): refused while the recipe is gated. */
     private static void onUseOnBlock(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getEntity();
         ItemStack held = event.getItemStack();
@@ -196,10 +164,9 @@ public final class CreateThaumaResearch {
             if (!target.test(block) || !applied.test(held)) {
                 continue;
             }
-            ItemStack result = recipe.getResultItem(event.getLevel().registryAccess());
-            if (!mayMake(player, result)) {
-                player.displayClientMessage(Component.translatable("tooltip." + MOD_ID + ".locked", researchName(lockOf(result)))
-                        .withStyle(ChatFormatting.DARK_PURPLE), true);
+            Component refusal = ResearchGates.refusal(player, holder, recipe.getResultItem(event.getLevel().registryAccess()));
+            if (refusal != null) {
+                player.displayClientMessage(refusal, true);
                 event.setCanceled(true);
                 return;
             }
@@ -207,10 +174,12 @@ public final class CreateThaumaResearch {
     }
 
     private static void onTooltip(ItemTooltipEvent event) {
-        ResourceLocation research = lockOf(event.getItemStack());
-        if (research != null && event.getEntity() != null && !completed(event.getEntity(), research)) {
-            event.getToolTip().add(Component.translatable("tooltip." + MOD_ID + ".locked", researchName(research))
-                    .withStyle(ChatFormatting.DARK_PURPLE));
+        if (event.getEntity() == null) {
+            return;
+        }
+        Gate gate = ResearchGates.closedGateForItem(event.getEntity(), event.getItemStack());
+        if (gate != null) {
+            event.getToolTip().add(ResearchGates.lockedMessage(gate));
         }
     }
 }

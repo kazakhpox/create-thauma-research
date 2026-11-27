@@ -1,0 +1,11 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:kinetics"
+  },
+  "outputs": [
+    "create:andesite_casing",
+    "create:cogwheel",
+    "create:hand_crank",
+    "create:shaft"
+  ]
+}

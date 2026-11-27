@@ -38,6 +38,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 public final class Emissions {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String P = "com.leclowndu93150.thaumaturge.";
+    private static final boolean DEBUG = Boolean.getBoolean("createthaumaresearch.debugEmissions");
     private static List<EmissionRule> rules = List.of();
     private static Map<Block, List<EmissionRule>> byBlock;
     private static List<EmissionRule> tagged;
@@ -193,6 +194,9 @@ public final class Emissions {
             return;
         }
         float amount = (float) (rule.flux * scale * EmissionConfig.MULTIPLIER.get());
+        if (DEBUG) {
+            LOGGER.info("[emission] {} at {}: {} flux", rule.id, pos, amount);
+        }
         if (amount > 0) {
             pollute(level, pos, amount, rule.effect);
         }

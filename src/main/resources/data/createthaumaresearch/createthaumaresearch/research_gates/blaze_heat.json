@@ -1,0 +1,8 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:blaze_heat"
+  },
+  "outputs": [
+    "create:empty_blaze_burner"
+  ]
+}

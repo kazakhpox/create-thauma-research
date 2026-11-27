@@ -1,0 +1,9 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:water_power"
+  },
+  "outputs": [
+    "create:large_water_wheel",
+    "create:water_wheel"
+  ]
+}

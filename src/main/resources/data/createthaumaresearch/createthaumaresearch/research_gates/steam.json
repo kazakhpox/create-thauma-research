@@ -1,0 +1,10 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:steam"
+  },
+  "outputs": [
+    "create:flywheel",
+    "create:steam_engine",
+    "create:steam_whistle"
+  ]
+}

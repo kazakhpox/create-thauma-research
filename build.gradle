@@ -124,6 +124,7 @@ neoForge.runs.register('check') {
     sourceSet = sourceSets.devtools
     gameDirectory = project.file('run-server')
     systemProperty 'createthaumaresearch.check', project.file('src/main/resources/data').absolutePath
+    systemProperty 'createthaumaresearch.debugEmissions', 'true'
     programArgument '--nogui'
 }
 neoForge.runs.register('shots') {

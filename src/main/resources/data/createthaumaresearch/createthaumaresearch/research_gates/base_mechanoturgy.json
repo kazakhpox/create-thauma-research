@@ -1,0 +1,10 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:base_mechanoturgy"
+  },
+  "outputs": [
+    "create:andesite_alloy",
+    "create:andesite_alloy_block",
+    "create:wrench"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:processing"
+  },
+  "outputs": [
+    "create:basin",
+    "create:encased_fan",
+    "create:mechanical_mixer",
+    "create:mechanical_press",
+    "create:millstone",
+    "create:nozzle",
+    "create:propeller",
+    "create:whisk"
+  ]
+}

@@ -106,6 +106,8 @@ public final class ShotDriver {
             craftShaft(player, "before research");
             applyCasing(player, "before research");
         }));
+        then("locked client", 1, () -> System.out.println("[shots] client sees in the result slot before research: "
+                + Minecraft.getInstance().player.containerMenu.getSlot(0).getItem() + " (screen " + Minecraft.getInstance().screen + ")"));
         then("locked shot", 5, () -> shot("00_locked_crafting"));
         then("tooltip", 20, () -> {
             Minecraft.getInstance().setScreen(null);
@@ -121,6 +123,8 @@ public final class ShotDriver {
             craftShaft(player, "after research");
             applyCasing(player, "after research");
         }));
+        then("unlocked client", 1, () -> System.out.println("[shots] client sees in the result slot after research: "
+                + Minecraft.getInstance().player.containerMenu.getSlot(0).getItem()));
         then("unlocked shot", 5, () -> shot("01_unlocked_crafting"));
         then("book", 40, () -> server(player -> {
             player.closeContainer();

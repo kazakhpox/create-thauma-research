@@ -1,0 +1,13 @@
+{
+  "research": {
+    "entry": "createthaumaresearch:logistics"
+  },
+  "outputs": [
+    "create:andesite_funnel",
+    "create:andesite_tunnel",
+    "create:chute",
+    "create:depot",
+    "create:item_vault",
+    "create:weighted_ejector"
+  ]
+}
